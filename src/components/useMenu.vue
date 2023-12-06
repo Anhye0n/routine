@@ -12,35 +12,34 @@ export default {
   },
   methods: {
     onClick(e) {
-      // if (e.target.parentNode !== this.menuRef[0]) {
       if (this.menuRef.indexOf(e.target.parentNode) === -1) {
-        // console.log("debug ", e.target.parentNode)
-        // console.log(this.menuRef[0])
         //결과 창 닫기
         this.$emit("subMenuViewBoolean")
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
 <script setup>
 // 메뉴 내용들은 부모로부터 받아와서 출력하기
 defineProps({
-  subMenu: Object,
-  menuRef: Object,
+  subMenu: {
+    type: Object
+  },
+  menuRef: {
+    type: Object
+  }
 })
 defineEmits(["subMenuViewBoolean"])
-const tempMenu = [{ name: "asdf" }, { name: "asdf" }, { name: "asdf" }]
 </script>
 
 <style scoped>
 .useMenu {
   position: absolute;
-  box-shadow:
-    0 3px 5px -1px rgba(0, 0, 0, 0.2),
-    0 6px 10px 0 rgba(0, 0, 0, 0.14),
-    0 1px 18px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+  0 6px 10px 0 rgba(0, 0, 0, 0.14),
+  0 1px 18px 0 rgba(0, 0, 0, 0.12);
   margin-top: -70px;
   margin-left: 30px;
   background: #ffffff;

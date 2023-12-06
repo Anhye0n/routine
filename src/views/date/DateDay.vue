@@ -4,7 +4,7 @@
       arrow_back_ios
     </span>
     <div id="topDateBox">
-      <p id="dateDayTopWeek">{{ week }}</p>
+      <p id="dateDayTopWeek" :class="weekColor">{{ week }}</p>
       <p id="dateDayTopDate">{{ topDate }}</p>
     </div>
     <span class="material-symbols-outlined" @click="dateDayMove('next')">
@@ -13,9 +13,9 @@
   </div>
 
   <div id="dateDayInputRoutineBox">
-    <label for="dateDayInputRoutine"
-      ><span class="material-symbols-outlined">playlist_add</span></label
-    >
+    <label for="dateDayInputRoutine">
+      <span class="material-symbols-outlined">playlist_add</span>
+    </label>
     <input
       id="dateDayInputRoutine"
       type="text"
@@ -78,9 +78,17 @@ const { prevDay, nextDay } = calcDate
 
 const route = useRoute()
 const router = useRouter()
-
+let weekColor = ref("#ffffff")
 const week = computed(() => {
+  if (format.week(route.params.date) === "Saturday") {
+    weekColor.value = "#88b6ff"
+  } else if (format.week(route.params.date) === "Sunday") {
+    weekColor.value = "#ff6161"
+  } else {
+    weekColor.value = "#ffffff"
+  }
   return format.week(route.params.date)
+
 })
 
 const topDate = computed(() => {
@@ -94,13 +102,13 @@ const inputArray = ref([
   {
     routineId: "1234",
     content: "비타민c 먹기",
-    isFinish: false,
+    isFinish: false
   },
   {
     routineId: "5678",
     content: "운동가기",
-    isFinish: false,
-  },
+    isFinish: false
+  }
 ])
 
 const dateDayMove = type => {
@@ -148,7 +156,7 @@ const isFinishFunc = inputData => {
   height: 100%;
 }
 
-#topDateBox{
+#topDateBox {
   width: 175px;
 }
 
@@ -156,12 +164,13 @@ const isFinishFunc = inputData => {
   font-size: 2rem;
   font-family: "NanumSquareB", serif;
   margin-bottom: 10px;
+  color: v-bind(weekColor);
 }
 
 #dateDayTopDate {
   color: #a8a8a8;
   font-size: 1.2rem;
-  //font-family: "NanumSquareB", serif;
+//font-family: "NanumSquareB", serif;
 }
 
 #dateDayInputRoutine {
@@ -258,9 +267,7 @@ label > .material-symbols-outlined {
 }
 
 .subMenuAnimation-enter-active {
-  //transition: opacity 0.3s ease;
-  -webkit-animation: scale-in-bl 0.1s ease-in both;
-  animation: scale-in-bl 0.1s ease-in both;
+//transition: opacity 0.3s ease; -webkit-animation: scale-in-bl 0.1s ease-in both; animation: scale-in-bl 0.1s ease-in both;
 }
 
 .subMenuAnimation-leave-active {
@@ -270,7 +277,7 @@ label > .material-symbols-outlined {
 
 .subMenuAnimation-enter-to,
 .subMenuAnimation-leave-from {
-  //opacity: 1;
+//opacity: 1;
 }
 
 /* ----------------------------------------------

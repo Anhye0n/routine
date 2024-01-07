@@ -56,7 +56,7 @@ const todayDate = format.today
 }
 
 .topListNameBox:has(.active) {
-  border-bottom: 3px solid #a2ea86;
+  border-bottom: 3px solid #3255fd;
 }
 
 .active {

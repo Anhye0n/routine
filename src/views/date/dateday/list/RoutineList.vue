@@ -27,7 +27,7 @@
       <div class="dateDayRoutineEtcBox" ref="menuRef">
         <Transition name="subMenuAnimation">
           <useMenu
-            :routine-id="routineData.routineId"
+            :content-id="routineData.routineId"
             :sub-menu="subMenu"
             v-if="subMenuView[index]"
             :menu-ref="$refs.menuRef"
@@ -95,7 +95,7 @@ const isFinishFunc = routineData => {
       routine_content: routineData.content,
       routine_author: userName.value,
       routine_status_finished: routineData.isFinish,
-      routine_status_updatedAt: getCurrentDateTime
+      routine_status_updatedAt: getCurrentDateTime()
     }
   }).then(res => {
     // console.log(res)
@@ -244,8 +244,8 @@ const closeSubMenuOutside = (subMenuView, index) => {
   width: 25px;
   height: 25px;
   border-radius: 5px;
-  border: 2px solid #b4d491;
-  background: #b4d491;
+  border: 2px solid #00b775;
+  background: #00b775;
 }
 
 .finish:hover,

@@ -46,12 +46,12 @@ const logout = () => {
   height: 100px;
   justify-content: center;
   margin-top: 200px;
-  color: #000000;
+  color: #d3d3d3;
 }
 
 #userName {
   text-align: center;
-  color: #000000;
+  color: #d3d3d3;
   font-size: 2rem;
   font-family: "NanumSquareEB", serif;
 }
@@ -70,7 +70,10 @@ const logout = () => {
   margin: 20px auto auto;
   padding: 0.05px;
   padding-bottom: 40px;
-  background: #3c424a;
+  background: #23222a;
+  box-shadow: 1px 1px 40px 6px rgba(0, 0, 0, 0.52);
+  -webkit-box-shadow: 1px 1px 40px 6px rgba(0, 0, 0, 0.52);
+  -moz-box-shadow: 1px 1px 40px 6px rgba(0, 0, 0, 0.52);
 }
 
 #logout {
@@ -81,6 +84,7 @@ const logout = () => {
 }
 
 #logout > p {
+  color: #ffffff;
   transition: 0.1s;
   cursor: pointer;
   display: inline;

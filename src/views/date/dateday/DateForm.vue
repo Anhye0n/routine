@@ -10,7 +10,7 @@
       type="text"
       placeholder="Add a task..."
       @keyup.enter="addRoutine"
-      @keyup.shift.enter="addTodo"
+      @keydown.shift.enter="addTodo"
       autocomplete="off"
       v-model="routineInput"
     />
@@ -22,24 +22,27 @@
 import { inject, ref, watch } from "vue"
 import axios from "axios"
 
-import { useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { useUserStore } from "@/stores/userManage"
 import { storeToRefs } from "pinia"
 import { authenticateToken } from "@/plugins/jwt/checkToken"
 
+const router = useRouter()
+const route = useRoute()
+
+
 const { format } = inject("todayDate")
 const { getCurrentDateTime } = format
-const router = useRouter()
 
 const { userName } = storeToRefs(useUserStore())
 const routineInput = ref("")
 
-const { getRoutineData } = defineProps({
+const { getRoutineData, getTodoData } = defineProps({
   getRoutineData: {
     type: Function
   },
-  routineArray: {
-    type: Array
+  getTodoData: {
+    type: Function
   }
 })
 
@@ -56,7 +59,7 @@ const addRoutine = () => {
     data: {
       routine_content: routineInput.value,
       routine_author: userName.value,
-      routine_createAt: getCurrentDateTime
+      routine_createAt: getCurrentDateTime()
     }
   }).then(res => {
     // console.log(res)
@@ -84,16 +87,15 @@ const addTodo = () => {
     url: `${import.meta.env.VITE_APP_API_URL}/todo/submit`,
     data: {
       todo_content: routineInput.value,
+      todo_date: route.params.date,
       todo_author: userName.value,
-      todo_createAt: getCurrentDateTime
+      todo_createdAt: getCurrentDateTime()
     }
   }).then(res => {
     // console.log(res)
-    // todo 불러오는 함수 만들기
+    getTodoData()
   }).catch(err => {
-    if (err.response.status === 403) {
-      alert("올바르지 않은 접근입니다.")
-    }
+    console.log(err)
     // console.log(err)
   })
 
@@ -121,9 +123,9 @@ label > .material-symbols-outlined {
   color: #a9a9a9;
   width: 410px;
   min-width: 300px;
-  background: #343a40;
+  background: #2e2d35;
   border-radius: 5px;
-  border: 1px solid #2b2d31;
+  border: 1px solid #2e2d35;
   font-family: "NanumSquareB", serif;
   font-size: 1.2rem;
   padding: 11px 10px 10px 55px;

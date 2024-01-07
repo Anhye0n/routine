@@ -12,10 +12,14 @@
     </span>
   </div>
 
-  <DateForm :get-routine-data="getRoutineData" :routine-array="routineArray"></DateForm>
+  <DateForm :get-routine-data="getRoutineData" :get-todo-data="getTodoData" :routine-array="routineArray"></DateForm>
 
   <RoutineList :get-routine-data="getRoutineData" :routine-array="routineArray"
-               @edit-routine-data="editRoutineDataEvent"></RoutineList>
+               @edit-routine-data="editRoutineDataEvent" />
+
+  <hr id="verticalSeparator" v-if="todoArray.length !== 0">
+
+  <TodoList :get-todo-data="getTodoData" :todo-array="todoArray" @edit-todo-data="editTodoDataEvent" />
 
 </template>
 <script setup>
@@ -27,6 +31,9 @@ import DateForm from "@/views/date/dateday/DateForm.vue"
 import { authenticateToken } from "@/plugins/jwt/checkToken"
 import axios from "axios"
 import RoutineList from "@/views/date/dateday/list/RoutineList.vue"
+import TodoList from "@/views/date/dateday/list/TodoList.vue"
+import { storeToRefs } from "pinia"
+import { useUserStore } from "@/stores/userManage"
 
 const { format, calcDate } = inject("todayDate")
 const { today, propsToFormat } = format
@@ -35,7 +42,10 @@ const { prevDay, nextDay } = calcDate
 const route = useRoute()
 const router = useRouter()
 
+const { userName } = storeToRefs(useUserStore())
+
 const routineArray = ref([])
+const todoArray = ref([])
 
 let weekColor = ref("#ffffff")
 
@@ -43,7 +53,7 @@ const week = computed(() => {
   if (format.week(route.params.date) === "Saturday") {
     weekColor.value = "#88b6ff"
   } else if (format.week(route.params.date) === "Sunday") {
-    weekColor.value = "#ff6161"
+    weekColor.value = "#fb3648"
   } else {
     weekColor.value = "#ffffff"
   }
@@ -92,9 +102,49 @@ const getRoutineData = () => {
   })
 }
 
+const getTodoData = () => {
+  if (!authenticateToken()) {
+    alert("다시 로그인해주시길 바랍니다.")
+    router.push({ path: "/" })
+  }
+
+  axios({
+    method: "post",
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/get_todo`,
+    data: {
+      todo_date: route.params.date,
+      todo_author: userName.value
+    }
+  }).then(res => {
+    const todoData = res.data
+
+    if (todoData.length === 0) {
+      todoArray.value = []
+      return null
+    }
+
+    todoArray.value = []
+
+    for (let newData of todoData) {
+      todoArray.value.push({
+        todoId: newData.todo_UUID,
+        content: newData.todo_content,
+        author: newData.todo_author,
+        isFinish: Boolean(newData.todo_finished),
+        editTodoContent: false
+      })
+    }
+
+    return null
+
+  })
+}
+
 //페이지 이동 시 실행
 watch(route, (newValue, oldValue) => {
   getRoutineData()
+  getTodoData()
+  console.log('asdf')
 }, {
   immediate: true
 })
@@ -105,6 +155,17 @@ const editRoutineDataEvent = (routineId) => {
 
     if (routineData.routineId === routineId) {
       routineData.editRoutineContent = !routineData.editRoutineContent
+      break
+    }
+  }
+}
+
+const editTodoDataEvent = (todoId) => {
+  for (let todoData of todoArray.value) {
+    console.log(todoData.todoId)
+
+    if (todoData.todoId === todoId) {
+      todoData.editTodoContent = !todoData.editTodoContent
       break
     }
   }
@@ -159,6 +220,11 @@ const dateDayMove = type => {
 #dateDayTopDate {
   color: #a8a8a8;
   font-size: 1.2rem;
+}
+
+#verticalSeparator{
+  border: 1px solid #2e2d35;
+  width: 80%;
 }
 
 </style>

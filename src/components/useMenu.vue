@@ -1,7 +1,7 @@
 <template>
   <div class="useMenu">
     <div v-for="menu in subMenu">
-      <p class="menuContent" @click="$emit('clickButton', menu, routineId)">{{ menu }}</p>
+      <p class="menuContent" @click="$emit('clickButton', menu, contentId)">{{ menu }}</p>
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
 <script setup>
 // 메뉴 내용들은 부모로부터 받아와서 출력하기
 defineProps({
-  routineId: {
+  contentId: {
     type: String
   },
   subMenu: {

@@ -89,16 +89,16 @@ const sendLogin = () => {
     "user_name": userID.value,
     "user_pwd": userPwd.value
   })
-    .then(res => {
-      if (res.data === false) {
-        alert("존재하지 않는 계정 입니다")
-      } else {
-        console.log(res.data)
-        userName.value = res.data
-        router.push({ name: "day", params: { date: todayDate } })
-        // console.log(res.data)
-      }
-    })
+      .then(res => {
+        if (res.data === false) {
+          alert("존재하지 않는 계정 입니다")
+        } else {
+          console.log(res.data)
+          userName.value = res.data
+          router.push({ name: "day", params: { date: todayDate } })
+          // console.log(res.data)
+        }
+      })
 }
 
 const sendRegister = () => {
@@ -113,15 +113,15 @@ const sendRegister = () => {
     "user_name": userID.value,
     "user_pwd": userPwd.value
   })
-    .then(res => {
-      if (res.data === false) {
-        alert("이미 존재하는 이름입니다.")
-      } else {
-        // router.push({ name: "day", params: { date: todayDate } })
-        alert("가입이 완료되었습니다.")
-        changeBox.value = "login"
-      }
-    })
+      .then(res => {
+        if (res.data === false) {
+          alert("이미 존재하는 이름입니다.")
+        } else {
+          // router.push({ name: "day", params: { date: todayDate } })
+          alert("가입이 완료되었습니다.")
+          changeBox.value = "login"
+        }
+      })
 }
 </script>
 
@@ -181,7 +181,7 @@ label[for='userPwd'] .material-symbols-outlined {
 
 .submitButton {
   font-family: "NanumSquareB", serif;
-  background: #76b961;
+  background: #3356fe;
   color: #ffffff;
   cursor: pointer;
   margin-top: 20px;
@@ -194,7 +194,7 @@ label[for='userPwd'] .material-symbols-outlined {
 }
 
 .submitButton:hover {
-  background: #5a8d4a;
+  background: #2740bd;
 }
 
 .submitButton:active {

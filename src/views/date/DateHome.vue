@@ -31,6 +31,7 @@
 import { inject } from "vue"
 
 const { format } = inject("todayDate")
+
 const todayDate = format.today
 </script>
 

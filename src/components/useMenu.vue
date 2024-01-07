@@ -1,7 +1,7 @@
 <template>
   <div class="useMenu">
     <div v-for="menu in subMenu">
-      <p class="menuContent">{{ menu }}</p>
+      <p class="menuContent" @click="$emit('clickButton', menu, routineId)">{{ menu }}</p>
     </div>
   </div>
 </template>
@@ -24,6 +24,9 @@ export default {
 <script setup>
 // 메뉴 내용들은 부모로부터 받아와서 출력하기
 defineProps({
+  routineId: {
+    type: String
+  },
   subMenu: {
     type: Object
   },
@@ -31,7 +34,8 @@ defineProps({
     type: Object
   }
 })
-defineEmits(["subMenuViewBoolean"])
+
+defineEmits(["subMenuViewBoolean", "clickButton"])
 </script>
 
 <style scoped>

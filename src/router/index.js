@@ -36,12 +36,12 @@ const router = createRouter({
                     if (from.path === "/") {
                         next({ name: "day", params: { date: todayDate } })
                         console.log("로그인 되어있음")
-                        return null
+                        return
                     }
 
                     alert("이미 로그인되었습니다.")
                     next(false)
-                    return null
+                    return
                 }
 
                 const refreshTokenResult = await checkRefreshToken()
@@ -49,17 +49,17 @@ const router = createRouter({
                     if (from.path === "/") {
                         next({ name: "day", params: { date: todayDate } })
                         console.log("로그인 되어있음")
-                        return null
+                        return
                     }
 
                     alert("이미 로그인되었습니다.")
                     next(false)
-                    return null
+                    return
                 }
 
                 userNameClear()
                 next()
-                return null
+                return
             }
         },
         {
@@ -98,21 +98,21 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === "/") {
         next()
         // console.clear()
-        return null
+        return
     }
 
     const accessTokenResult = await checkAccessToken()
     if (accessTokenResult) {
         next()
         // console.clear()
-        return null
+        return
     }
 
     const refreshTokenResult = await checkRefreshToken()
     if (refreshTokenResult) {
         next()
         // console.clear()
-        return null
+        return
     }
 
     // 모든 jwt 유효하지 않음

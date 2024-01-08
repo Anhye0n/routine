@@ -61,7 +61,7 @@ const { getCurrentDateTime } = format
 
 
 const route = useRoute()
-const { userName } = storeToRefs(useUserStore())
+const { userName, accessToken } = storeToRefs(useUserStore())
 
 const { getRoutineData, routineArray } = defineProps({
   getRoutineData: {
@@ -88,7 +88,10 @@ const isFinishFunc = routineData => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/finished_routine`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/finished`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       routine_UUID: routineData.routineId,
       routine_status_date: route.params.date,
@@ -112,7 +115,10 @@ const isFinishFunc = routineData => {
 const deleteRoutine = (routineId) => {
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/delete_routine`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/delete`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       routine_UUID: routineId,
       routine_author: userName.value
@@ -132,17 +138,20 @@ const editRoutine = (routineId) => {
 }
 
 const submitEditRoutine = (e, routineData) => {
-  if (!e.target.value.replace(/\s/g, "")) return null
+  if (!e.target.value.replace(/\s/g, "")) return
 
   if (e.target.value.length >= 80) {
     alert("80자 이상은 불가능합니다.")
     e.target.value = e.target.value.slice(0, 79)
-    return null
+    return
   }
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/edit_routine`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/edit`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       routine_UUID: routineData.routineId,
       routine_content: e.target.value,

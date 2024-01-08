@@ -34,7 +34,7 @@ const route = useRoute()
 const { format } = inject("todayDate")
 const { getCurrentDateTime } = format
 
-const { userName } = storeToRefs(useUserStore())
+const { userName, accessToken } = storeToRefs(useUserStore())
 const routineInput = ref("")
 
 const { getRoutineData, getTodoData } = defineProps({
@@ -47,7 +47,7 @@ const { getRoutineData, getTodoData } = defineProps({
 })
 
 const addRoutine = () => {
-  if (!routineInput.value.replace(/\s/g, "")) return null
+  if (!routineInput.value.replace(/\s/g, "")) return
   if (!authenticateToken()) {
     alert("다시 로그인해주시길 바랍니다.")
     router.push({ path: "/" })
@@ -56,6 +56,9 @@ const addRoutine = () => {
   axios({
     method: "post",
     url: `${import.meta.env.VITE_APP_API_URL}/routine/submit`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       routine_content: routineInput.value,
       routine_author: userName.value,
@@ -76,7 +79,7 @@ const addRoutine = () => {
 
 
 const addTodo = () => {
-  if (!routineInput.value.replace(/\s/g, "")) return null
+  if (!routineInput.value.replace(/\s/g, "")) return
   if (!authenticateToken()) {
     alert("다시 로그인해주시길 바랍니다.")
     router.push({ path: "/" })
@@ -85,6 +88,9 @@ const addTodo = () => {
   axios({
     method: "post",
     url: `${import.meta.env.VITE_APP_API_URL}/todo/submit`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       todo_content: routineInput.value,
       todo_date: route.params.date,

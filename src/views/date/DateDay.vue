@@ -42,7 +42,7 @@ const { prevDay, nextDay } = calcDate
 const route = useRoute()
 const router = useRouter()
 
-const { userName } = storeToRefs(useUserStore())
+const { userName, accessToken } = storeToRefs(useUserStore())
 
 const routineArray = ref([])
 const todoArray = ref([])
@@ -72,7 +72,10 @@ const getRoutineData = () => {
   }
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/get_routine`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/get`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       routine_author: userName.value,
       routine_status_date: route.params.date
@@ -82,7 +85,7 @@ const getRoutineData = () => {
 
     if (routineData.length === 0) {
       routineArray.value = []
-      return null
+      return
     }
 
     routineArray.value = []
@@ -96,9 +99,6 @@ const getRoutineData = () => {
         editRoutineContent: false
       })
     }
-
-    return null
-
   })
 }
 
@@ -110,7 +110,10 @@ const getTodoData = () => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/get_todo`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/get`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       todo_date: route.params.date,
       todo_author: userName.value
@@ -120,7 +123,7 @@ const getTodoData = () => {
 
     if (todoData.length === 0) {
       todoArray.value = []
-      return null
+      return
     }
 
     todoArray.value = []
@@ -135,7 +138,7 @@ const getTodoData = () => {
       })
     }
 
-    return null
+    return
 
   })
 }
@@ -144,7 +147,6 @@ const getTodoData = () => {
 watch(route, (newValue, oldValue) => {
   getRoutineData()
   getTodoData()
-  console.log('asdf')
 }, {
   immediate: true
 })
@@ -175,7 +177,7 @@ const dateDayMove = type => {
   if (type === "prev") {
     router.push({ name: "day", params: { date: prevDay(route.params.date) } })
 
-    return null
+    return
   }
   router.push({ name: "day", params: { date: nextDay(route.params.date) } })
 

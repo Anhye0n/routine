@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="background">
     <div id="userNameBox">
       <span class="material-symbols-outlined" v-if="userName !== null">edit_calendar</span>
       <p id="userName">{{ userName }}</p>
@@ -14,13 +14,34 @@
 </template>
 
 <script setup>
+
 import { useUserStore } from "@/stores/userManage"
 import axios from "axios"
 import router from "@/router"
 import { storeToRefs } from "pinia"
+import { ref, watch, watchEffect } from "vue"
+import { useRoute } from "vue-router"
+
+const route = useRoute()
 
 const { userNameClear } = useUserStore()
-const { userName } = storeToRefs(useUserStore())
+const { userName, accessToken } = storeToRefs(useUserStore())
+
+const background = ref(!!userName.value
+  ?
+  `url("/src/assets/images/background.jpg") center center fixed`
+  :
+  `linear-gradient(160deg, #F0EDCC 50%, #02343F 50%)`)
+
+watch(route, () => {
+  background.value = !!userName.value
+    ?
+    `url("/src/assets/images/background.jpg") center center fixed`
+    :
+    `linear-gradient(160deg, #F0EDCC 50%, #02343F 50%)`
+}, {
+  immediate: true
+})
 
 const logout = () => {
   axios({
@@ -30,6 +51,7 @@ const logout = () => {
   }).then(res => {
     if (res.data) {
       userNameClear()
+      accessToken.value = null
       alert("로그아웃되었습니다")
       router.push("/")
       // location.href = "http://localhost:5173/"
@@ -40,6 +62,15 @@ const logout = () => {
 </script>
 
 <style scoped>
+#background {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.05px;
+  background: v-bind('background');
+  background-size: cover;
+}
+
 #userNameBox {
   display: flex;
   align-items: center;

@@ -61,7 +61,7 @@ const { format } = inject("todayDate")
 const { getCurrentDateTime } = format
 
 const route = useRoute()
-const { userName } = storeToRefs(useUserStore())
+const { userName, accessToken } = storeToRefs(useUserStore())
 
 const { getTodoData, todoArray } = defineProps({
   getTodoData: {
@@ -88,7 +88,10 @@ const isFinishFunc = todoData => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/finished_todo`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/finished`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       todo_UUID: todoData.todoId,
       todo_date: route.params.date,
@@ -112,7 +115,10 @@ const isFinishFunc = todoData => {
 const deleteTodo = (todoId) => {
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/delete_todo`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/delete`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       todo_UUID: todoId,
       todo_date: route.params.date,
@@ -132,17 +138,20 @@ const editTodo = (todoId) => {
 }
 
 const submitEditTodo = (e, todoData) => {
-  if (!e.target.value.replace(/\s/g, "")) return null
+  if (!e.target.value.replace(/\s/g, "")) return
 
   if (e.target.value.length >= 80) {
     alert("80자 이상은 불가능합니다.")
     e.target.value = e.target.value.slice(0, 79)
-    return null
+    return
   }
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/edit_todo`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/edit`,
+    headers: {
+      Authorization: `Bearer ${accessToken.value}`
+    },
     data: {
       todo_UUID: todoData.todoId,
       todo_date: route.params.date,

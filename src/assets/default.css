@@ -4,18 +4,17 @@ html, body {
     margin: 0;
     /* margin collapse 해결을 위해 사용 */
     padding: 0.05px;
+    color: #ffffff;
+    font-family: 'NanumSquareR', serif;
     /*background: linear-gradient(160deg, #ee6191 50%, #e55c8a 50%);*/
     /*background: linear-gradient(160deg, #6182ee 50%, #5c73e5 50%);*/
     /*background: linear-gradient(160deg, #a2ea86 50%, #7be077 50%);*/
     /*background: linear-gradient(160deg, #b4d491 50%, #a2cba1 50%);*/
 
-    /*background: linear-gradient(160deg, #F0EDCC 50%, #02343F 50%);*/
     /*background: linear-gradient(160deg, #23222a 50%, #171719 50%);*/
-    /*background: #171719;*/
-    background: url("../assets/images/background.jpg") center center fixed;
-    background-size: cover;
-    color: #ffffff;
-    font-family: 'NanumSquareR', serif;
+
+    /*background: url("../assets/images/background.jpg") center center fixed;*/
+    /*background-size: cover;*/
 }
 
 a {

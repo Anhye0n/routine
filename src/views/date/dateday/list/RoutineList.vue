@@ -106,7 +106,7 @@ const isFinishFunc = routineData => {
   }).catch(err => {
     console.log(err)
     if (err.response.status === 403) {
-      alert("올바르지 않은 접근입니다.")
+      alert("잘못된 접근입니다.")
     }
     // console.log(err)
   })
@@ -128,6 +128,7 @@ const deleteRoutine = (routineId) => {
     getRoutineData()
   }).catch(err => {
     console.log(err)
+    alert("잘못된 접근입니다.")
   })
 }
 
@@ -162,7 +163,7 @@ const submitEditRoutine = (e, routineData) => {
     getRoutineData()
   }).catch(err => {
     if (err.response.status === 403) {
-      alert("올바르지 않은 접근입니다.")
+      alert("잘못된 접근입니다.")
     }
     // console.log(err)
   })

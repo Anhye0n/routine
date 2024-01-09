@@ -69,7 +69,7 @@ const addRoutine = () => {
     getRoutineData()
   }).catch(err => {
     if (err.response.status === 403) {
-      alert("올바르지 않은 접근입니다.")
+      alert("잘못된 접근입니다.")
     }
     // console.log(err)
   })

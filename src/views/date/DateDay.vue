@@ -70,6 +70,7 @@ const getRoutineData = () => {
     alert("다시 로그인해주시길 바랍니다.")
     router.push({ path: "/" })
   }
+
   axios({
     method: "post",
     url: `${import.meta.env.VITE_APP_API_URL}/routine/get`,
@@ -80,26 +81,30 @@ const getRoutineData = () => {
       routine_author: userName.value,
       routine_status_date: route.params.date
     }
-  }).then(res => {
-    const routineData = res.data
-
-    if (routineData.length === 0) {
-      routineArray.value = []
-      return
-    }
-
-    routineArray.value = []
-
-    for (let newData of routineData) {
-      routineArray.value.push({
-        routineId: newData.routine_UUID,
-        content: newData.routine_content,
-        author: newData.routine_author,
-        isFinish: Boolean(newData.finished),
-        editRoutineContent: false
-      })
-    }
   })
+    .then(res => {
+      const routineData = res.data
+
+      if (routineData.length === 0) {
+        routineArray.value = []
+        return
+      }
+
+      routineArray.value = []
+
+      for (let newData of routineData) {
+        routineArray.value.push({
+          routineId: newData.routine_UUID,
+          content: newData.routine_content,
+          author: newData.routine_author,
+          isFinish: Boolean(newData.finished),
+          editRoutineContent: false
+        })
+      }
+    })
+    .catch(err => {
+      alert("잘못된 접근입니다.")
+    })
 }
 
 const getTodoData = () => {
@@ -118,29 +123,30 @@ const getTodoData = () => {
       todo_date: route.params.date,
       todo_author: userName.value
     }
-  }).then(res => {
-    const todoData = res.data
-
-    if (todoData.length === 0) {
-      todoArray.value = []
-      return
-    }
-
-    todoArray.value = []
-
-    for (let newData of todoData) {
-      todoArray.value.push({
-        todoId: newData.todo_UUID,
-        content: newData.todo_content,
-        author: newData.todo_author,
-        isFinish: Boolean(newData.todo_finished),
-        editTodoContent: false
-      })
-    }
-
-    return
-
   })
+    .then(res => {
+      const todoData = res.data
+
+      if (todoData.length === 0) {
+        todoArray.value = []
+        return
+      }
+
+      todoArray.value = []
+
+      for (let newData of todoData) {
+        todoArray.value.push({
+          todoId: newData.todo_UUID,
+          content: newData.todo_content,
+          author: newData.todo_author,
+          isFinish: Boolean(newData.todo_finished),
+          editTodoContent: false
+        })
+      }
+    })
+    .catch(err => {
+      alert("잘못된 접근입니다.")
+    })
 }
 
 //페이지 이동 시 실행
@@ -224,7 +230,7 @@ const dateDayMove = type => {
   font-size: 1.2rem;
 }
 
-#verticalSeparator{
+#verticalSeparator {
   border: 1px solid #2e2d35;
   width: 80%;
 }

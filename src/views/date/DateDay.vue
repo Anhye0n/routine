@@ -78,8 +78,8 @@ const getRoutineData = () => {
       Authorization: `Bearer ${accessToken.value}`
     },
     data: {
-      routine_author: userName.value,
-      routine_status_date: route.params.date
+      routine_status_date: route.params.date,
+      routine_author: userName.value
     }
   })
     .then(res => {
@@ -159,7 +159,6 @@ watch(route, (newValue, oldValue) => {
 
 const editRoutineDataEvent = (routineId) => {
   for (let routineData of routineArray.value) {
-    console.log(routineData.routineId)
 
     if (routineData.routineId === routineId) {
       routineData.editRoutineContent = !routineData.editRoutineContent
@@ -170,7 +169,6 @@ const editRoutineDataEvent = (routineId) => {
 
 const editTodoDataEvent = (todoId) => {
   for (let todoData of todoArray.value) {
-    console.log(todoData.todoId)
 
     if (todoData.todoId === todoId) {
       todoData.editTodoContent = !todoData.editTodoContent

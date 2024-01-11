@@ -28,8 +28,9 @@ coverage
 *.sw?
 
 # dotenv environment variable files
-.env
+.env.production
 .env.development.local
+.env.development
 .env.test.local
 .env.production.local
 .env.local

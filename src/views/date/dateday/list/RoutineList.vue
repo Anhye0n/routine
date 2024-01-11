@@ -133,7 +133,6 @@ const deleteRoutine = (routineId) => {
 }
 
 const editRoutine = (routineId) => {
-  console.log(routineId)
 
   emits("editRoutineData", routineId)
 }

@@ -1,44 +1,46 @@
 import axios from "axios"
 import { useUserStore } from "@/stores/userManage"
 
-const checkAccessToken = () => {
-  const { setAccessToken, accessToken } = useUserStore()
+const checkAccessToken = async () => {
+  const { accessToken } = useUserStore()
 
-  return axios({
-    method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/auth/check/accessToken`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    },
-    withCredentials: true
-  }).then(res => {
-    if (res.data) {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${import.meta.env.VITE_APP_API_URL}/auth/check/accessToken`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      withCredentials: true
+    })
+    if (response.data) {
       console.log("access token 인증 성공")
       return true
     }
-  }).catch(err => {
+  } catch (err) {
     console.log("Access Token 만료됨.")
     return false
-  })
+  }
 }
 
 const checkRefreshToken = async () => {
 
   const { setAccessToken } = useUserStore()
 
-  return axios({
-    method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/auth/check/refreshToken`,
-    withCredentials: true
-  }).then(res => {
-    setAccessToken(res.headers["authorization"].replace("Bearer ", ""))
-
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${import.meta.env.VITE_APP_API_URL}/auth/check/refreshToken`,
+      withCredentials: true
+    })
+    setAccessToken(response.headers["authorization"].replace("Bearer ", ""))
     console.log("access token 재발급 성공")
+
     return true
-  }).catch(err => {
+  } catch (err) {
     console.log("Refresh Token 만료됨.")
     return false
-  })
+  }
 }
 
 const authenticateToken = async () => {

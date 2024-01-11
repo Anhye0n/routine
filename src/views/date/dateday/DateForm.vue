@@ -101,7 +101,9 @@ const addTodo = () => {
     // console.log(res)
     getTodoData()
   }).catch(err => {
-    console.log(err)
+    if (err.response.status === 403) {
+      alert("잘못된 접근입니다.")
+    }
     // console.log(err)
   })
 

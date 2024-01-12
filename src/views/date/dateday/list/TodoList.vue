@@ -88,7 +88,7 @@ const isFinishFunc = todoData => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/finished`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/finished/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
@@ -99,7 +99,8 @@ const isFinishFunc = todoData => {
       todo_author: userName.value,
       todo_finished: todoData.isFinish === true ? 1 : 0,
       todo_updatedAt: getCurrentDateTime()
-    }
+    },
+    withCredentials: true
   }).then(res => {
     // console.log(res)
     getTodoData()
@@ -115,7 +116,7 @@ const isFinishFunc = todoData => {
 const deleteTodo = (todoId) => {
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/delete`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/delete/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
@@ -123,7 +124,8 @@ const deleteTodo = (todoId) => {
       todo_UUID: todoId,
       todo_date: route.params.date,
       todo_author: userName.value
-    }
+    },
+    withCredentials: true
   }).then(res => {
     console.log("루틴 삭제 성공")
     getTodoData()
@@ -148,7 +150,7 @@ const submitEditTodo = (e, todoData) => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/edit`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/edit/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
@@ -157,7 +159,8 @@ const submitEditTodo = (e, todoData) => {
       todo_date: route.params.date,
       todo_content: e.target.value,
       todo_author: todoData.author
-    }
+    },
+    withCredentials: true
   }).then(res => {
     // console.log(res)
     getTodoData()

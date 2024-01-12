@@ -1,5 +1,5 @@
-import axios from 'axios'
-
-export default axios.create({
-  baseURL: import.meta.env.VUE_APP_API_BASE_URL
-})
+// import axios from 'axios'
+//
+// export default axios.create({
+//   baseURL: import.meta.env.VUE_APP_API_BASE_URL
+// })

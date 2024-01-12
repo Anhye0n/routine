@@ -22,12 +22,12 @@
 import { inject, ref, watch } from "vue"
 import axios from "axios"
 
-import { useRoute, useRouter } from "vue-router"
+import router from "@/router"
+import { useRoute } from "vue-router"
 import { useUserStore } from "@/stores/userManage"
 import { storeToRefs } from "pinia"
 import { authenticateToken } from "@/plugins/jwt/checkToken"
 
-const router = useRouter()
 const route = useRoute()
 
 
@@ -55,7 +55,7 @@ const addRoutine = () => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/submit`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/submit/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
@@ -63,7 +63,8 @@ const addRoutine = () => {
       routine_content: routineInput.value,
       routine_author: userName.value,
       routine_createAt: getCurrentDateTime()
-    }
+    },
+    withCredentials: true
   }).then(res => {
     // console.log(res)
     getRoutineData()
@@ -87,7 +88,7 @@ const addTodo = () => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/submit`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/submit/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
@@ -96,7 +97,8 @@ const addTodo = () => {
       todo_date: route.params.date,
       todo_author: userName.value,
       todo_createdAt: getCurrentDateTime()
-    }
+    },
+    withCredentials: true
   }).then(res => {
     // console.log(res)
     getTodoData()

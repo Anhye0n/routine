@@ -25,7 +25,8 @@
 <script setup>
 import { computed, inject, onMounted, ref, watch, watchEffect } from "vue"
 import UseMenu from "@/components/useMenu.vue"
-import { useRoute, useRouter } from "vue-router"
+import { useRoute } from "vue-router"
+import router from "@/router"
 
 import DateForm from "@/views/date/dateday/DateForm.vue"
 import { authenticateToken } from "@/plugins/jwt/checkToken"
@@ -40,7 +41,6 @@ const { today, propsToFormat } = format
 const { prevDay, nextDay } = calcDate
 
 const route = useRoute()
-const router = useRouter()
 
 const { userName, accessToken } = storeToRefs(useUserStore())
 
@@ -73,14 +73,15 @@ const getRoutineData = () => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/get`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/get/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
     data: {
       routine_status_date: route.params.date,
       routine_author: userName.value
-    }
+    },
+    withCredentials: true
   })
     .then(res => {
       const routineData = res.data
@@ -115,14 +116,15 @@ const getTodoData = () => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/todo/get`,
+    url: `${import.meta.env.VITE_APP_API_URL}/todo/get/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
     data: {
       todo_date: route.params.date,
       todo_author: userName.value
-    }
+    },
+    withCredentials: true
   })
     .then(res => {
       const todoData = res.data

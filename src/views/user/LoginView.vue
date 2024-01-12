@@ -55,12 +55,12 @@ import VueCookies from "vue-cookies"
 const { format } = inject("todayDate")
 const todayDate = format.today
 
-import { useApi } from "@/api"
 import router from "@/router"
 import { useUserStore } from "@/stores/userManage"
 import { storeToRefs } from "pinia"
 import { checkAccessToken, checkRefreshToken } from "@/plugins/jwt/checkToken"
 import { useRouter } from "vue-router"
+import axios from "axios"
 
 const { setAccessToken } = useUserStore()
 const { userName } = storeToRefs(useUserStore())
@@ -87,21 +87,26 @@ const sendLogin = () => {
     alert("비밀번호가 입력되지 않았습니다.")
     return
   }
-  useApi("/auth/login", "post", {
-    "user_name": userID.value,
-    "user_pwd": userPwd.value
-  })
-    .then(res => {
-      if (res.data === false) {
-        alert("존재하지 않는 계정 입니다")
-        return
-      }
-      userName.value = res.data
-      setAccessToken(res.headers['authorization'].replace("Bearer ", ""))
-      router.push({ name: "day", params: { date: todayDate } })
-      // console.log(res.data)
 
-    })
+  axios({
+    method: "post",
+    url: `${import.meta.env.VITE_APP_API_URL}/auth/login/`,
+    data: {
+      "user_name": userID.value,
+      "user_pwd": userPwd.value
+    },
+    withCredentials: true
+  }).then(res => {
+    if (res.data === false) {
+      alert("존재하지 않는 계정 입니다")
+      return
+    }
+    userName.value = res.data
+    setAccessToken(res.headers["authorization"].replace("Bearer ", ""))
+    router.push({ name: "day", params: { date: todayDate } })
+    // console.log(res.data)
+
+  })
 }
 
 const sendRegister = () => {
@@ -112,19 +117,24 @@ const sendRegister = () => {
     alert("비밀번호가 입력되지 않았습니다.")
     return
   }
-  useApi("/user/register", "post", {
-    "user_name": userID.value,
-    "user_pwd": userPwd.value
+
+  axios({
+    method: "post",
+    url: `${import.meta.env.VITE_APP_API_URL}//user/register/`,
+    data: {
+      "user_name": userID.value,
+      "user_pwd": userPwd.value
+    },
+    withCredentials: true
+  }).then(res => {
+    if (res.data === false) {
+      alert("이미 존재하는 이름입니다.")
+    } else {
+      // router.push({ name: "day", params: { date: todayDate } })
+      alert("가입이 완료되었습니다.")
+      changeBox.value = "login"
+    }
   })
-    .then(res => {
-      if (res.data === false) {
-        alert("이미 존재하는 이름입니다.")
-      } else {
-        // router.push({ name: "day", params: { date: todayDate } })
-        alert("가입이 완료되었습니다.")
-        changeBox.value = "login"
-      }
-    })
 }
 </script>
 

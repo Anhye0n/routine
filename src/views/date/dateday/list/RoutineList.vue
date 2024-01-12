@@ -88,7 +88,7 @@ const isFinishFunc = routineData => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/finished`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/finished/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
@@ -99,7 +99,8 @@ const isFinishFunc = routineData => {
       routine_author: userName.value,
       routine_status_finished: routineData.isFinish,
       routine_status_updatedAt: getCurrentDateTime()
-    }
+    },
+    withCredentials: true
   }).then(res => {
     // console.log(res)
     getRoutineData()
@@ -115,14 +116,15 @@ const isFinishFunc = routineData => {
 const deleteRoutine = (routineId) => {
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/delete`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/delete/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
     data: {
       routine_UUID: routineId,
       routine_author: userName.value
-    }
+    },
+    withCredentials: true
   }).then(res => {
     console.log("루틴 삭제 성공")
     getRoutineData()
@@ -148,7 +150,7 @@ const submitEditRoutine = (e, routineData) => {
 
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/routine/edit`,
+    url: `${import.meta.env.VITE_APP_API_URL}/routine/edit/`,
     headers: {
       Authorization: `Bearer ${accessToken.value}`
     },
@@ -156,7 +158,8 @@ const submitEditRoutine = (e, routineData) => {
       routine_UUID: routineData.routineId,
       routine_content: e.target.value,
       routine_author: routineData.author
-    }
+    },
+    withCredentials: true
   }).then(res => {
     // console.log(res)
     getRoutineData()

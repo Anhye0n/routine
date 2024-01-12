@@ -27,16 +27,17 @@ const route = useRoute()
 const { userNameClear } = useUserStore()
 const { userName, accessToken } = storeToRefs(useUserStore())
 
+// /assets/background.jpg
 const background = ref(!!userName.value
   ?
-  `url("/src/assets/images/background.jpg") center center fixed`
+  `url("${import.meta.env.VITE_IMAGE_URL}/background.jpg") center center fixed`
   :
   `linear-gradient(160deg, #F0EDCC 50%, #02343F 50%)`)
 
 watch(route, () => {
   background.value = !!userName.value
     ?
-    `url("/src/assets/images/background.jpg") center center fixed`
+    `url("${import.meta.env.VITE_IMAGE_URL}/background.jpg") center center fixed`
     :
     `linear-gradient(160deg, #F0EDCC 50%, #02343F 50%)`
 }, {
@@ -46,7 +47,7 @@ watch(route, () => {
 const logout = () => {
   axios({
     method: "post",
-    url: `${import.meta.env.VITE_APP_API_URL}/auth/logout`,
+    url: `${import.meta.env.VITE_APP_API_URL}/auth/logout/`,
     withCredentials: true
   }).then(res => {
     if (res.data) {

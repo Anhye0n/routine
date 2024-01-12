@@ -10,9 +10,12 @@ import App from './App.vue';
 import router from './router';
 
 import today from '@/plugins/today';
-import { useUserStore } from "@/stores/userManage"
-import { checkAccessToken, checkRefreshToken } from "@/plugins/jwt/checkToken"
-import { useRouter } from "vue-router"
+
+// import axios from "axios"
+// axios.defaults.withCredentials = true;
+// import { useUserStore } from "@/stores/userManage"
+// import { checkAccessToken, checkRefreshToken } from "@/plugins/jwt/checkToken"
+// import { useRouter } from "vue-router"
 
 const app = createApp(App);
 const pinia = createPinia()

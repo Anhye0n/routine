@@ -14,19 +14,20 @@
 
   <DateForm :get-routine-data="getRoutineData" :get-todo-data="getTodoData" :routine-array="routineArray"></DateForm>
 
+  <div class="loader" v-if="routineLoader"></div>
   <RoutineList :get-routine-data="getRoutineData" :routine-array="routineArray"
                @edit-routine-data="editRoutineDataEvent" />
 
   <hr id="verticalSeparator" v-if="todoArray.length !== 0">
 
+  <div class="loader" v-if="todoLoader"></div>
   <TodoList :get-todo-data="getTodoData" :todo-array="todoArray" @edit-todo-data="editTodoDataEvent" />
 
 </template>
 <script setup>
-import { computed, inject, onMounted, ref, watch, watchEffect } from "vue"
+import { computed, inject, ref, watch } from "vue"
 import UseMenu from "@/components/useMenu.vue"
-import { useRoute } from "vue-router"
-import router from "@/router"
+import { useRoute, useRouter } from "vue-router"
 
 import DateForm from "@/views/date/dateday/DateForm.vue"
 import { authenticateToken } from "@/plugins/jwt/checkToken"
@@ -41,11 +42,15 @@ const { today, propsToFormat } = format
 const { prevDay, nextDay } = calcDate
 
 const route = useRoute()
+const router = useRouter()
 
 const { userName, accessToken } = storeToRefs(useUserStore())
 
 const routineArray = ref([])
 const todoArray = ref([])
+
+const routineLoader = ref(false)
+const todoLoader = ref(false)
 
 let weekColor = ref("#ffffff")
 
@@ -71,6 +76,10 @@ const getRoutineData = () => {
     router.push({ path: "/" })
   }
 
+  if (routineArray.value.length === 0) {
+    routineLoader.value = true
+  }
+
   axios({
     method: "post",
     url: `${import.meta.env.VITE_APP_API_URL}/routine/get/`,
@@ -85,6 +94,8 @@ const getRoutineData = () => {
   })
     .then(res => {
       const routineData = res.data
+
+      routineLoader.value = false
 
       if (routineData.length === 0) {
         routineArray.value = []
@@ -114,6 +125,9 @@ const getTodoData = () => {
     router.push({ path: "/" })
   }
 
+  todoArray.value = []
+  todoLoader.value = true
+
   axios({
     method: "post",
     url: `${import.meta.env.VITE_APP_API_URL}/todo/get/`,
@@ -129,8 +143,10 @@ const getTodoData = () => {
     .then(res => {
       const todoData = res.data
 
+      todoLoader.value = false
+
       if (todoData.length === 0) {
-        todoArray.value = []
+        // todoArray.value = []
         return
       }
 
@@ -235,4 +251,42 @@ const dateDayMove = type => {
   width: 80%;
 }
 
+/* HTML: <div class="loader"></div> */
+.loader {
+  display: inline-flex;
+  margin-top: 20px;
+  gap: 5px;
+  animation: l3-0 1s infinite;
+  transform-origin: 50% calc(100% + 2.5px);
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  width: 25px;
+  aspect-ratio: 1;
+  box-shadow: 0 0 0 3px inset #fff;
+}
+
+.loader:after {
+  transform-origin: -2.5px calc(100% + 2.5px);
+  animation: l3-1 1s infinite;
+}
+
+@keyframes l3-1 {
+  50%,
+  100% {
+    transform: rotate(180deg)
+  }
+}
+
+@keyframes l3-0 {
+  0%,
+  50% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(90deg)
+  }
+}
 </style>

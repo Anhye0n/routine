@@ -50,9 +50,8 @@
 import UseMenu from "@/components/useMenu.vue"
 import { authenticateToken } from "@/plugins/jwt/checkToken"
 import axios from "axios"
-import router from "@/router"
 import { inject, ref } from "vue"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { storeToRefs } from "pinia"
 import { useUserStore } from "@/stores/userManage"
 
@@ -61,6 +60,8 @@ const { getCurrentDateTime } = format
 
 
 const route = useRoute()
+const router = useRouter()
+
 const { userName, accessToken } = storeToRefs(useUserStore())
 
 const { getRoutineData, routineArray } = defineProps({

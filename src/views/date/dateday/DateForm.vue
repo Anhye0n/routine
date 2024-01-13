@@ -22,14 +22,13 @@
 import { inject, ref, watch } from "vue"
 import axios from "axios"
 
-import router from "@/router"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { useUserStore } from "@/stores/userManage"
 import { storeToRefs } from "pinia"
 import { authenticateToken } from "@/plugins/jwt/checkToken"
 
 const route = useRoute()
-
+const router = useRouter()
 
 const { format } = inject("todayDate")
 const { getCurrentDateTime } = format

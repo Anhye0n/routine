@@ -49,22 +49,20 @@
 </template>
 
 <script setup>
-import { inject, onMounted, ref, watch, watchEffect } from "vue"
-import VueCookies from "vue-cookies"
+import { inject, onMounted, ref, watchEffect } from "vue"
 
 const { format } = inject("todayDate")
 const todayDate = format.today
 
-import router from "@/router"
 import { useUserStore } from "@/stores/userManage"
 import { storeToRefs } from "pinia"
-import { checkAccessToken, checkRefreshToken } from "@/plugins/jwt/checkToken"
 import { useRouter } from "vue-router"
 import axios from "axios"
 
 const { setAccessToken } = useUserStore()
 const { userName } = storeToRefs(useUserStore())
 
+const router = useRouter()
 
 const userID = ref("")
 const userPwd = ref("")

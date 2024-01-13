@@ -17,12 +17,12 @@
 
 import { useUserStore } from "@/stores/userManage"
 import axios from "axios"
-import router from "@/router"
 import { storeToRefs } from "pinia"
-import { ref, watch, watchEffect } from "vue"
-import { useRoute } from "vue-router"
+import { ref, watch } from "vue"
+import { useRoute, useRouter } from "vue-router"
 
 const route = useRoute()
+const router = useRouter()
 
 const { userNameClear } = useUserStore()
 const { userName, accessToken } = storeToRefs(useUserStore())

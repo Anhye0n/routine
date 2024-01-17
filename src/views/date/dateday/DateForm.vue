@@ -69,7 +69,7 @@ const addRoutine = () => {
     getRoutineData()
   }).catch(err => {
     if (err.response.status === 403) {
-      alert("잘못된 접근입니다.")
+      alert("잘못된 접근입니다. code(Add Routine Error)")
     }
     // console.log(err)
   })
@@ -103,7 +103,7 @@ const addTodo = () => {
     getTodoData()
   }).catch(err => {
     if (err.response.status === 403) {
-      alert("잘못된 접근입니다.")
+      alert("잘못된 접근입니다. code(Add Todo Error)")
     }
     // console.log(err)
   })

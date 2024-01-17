@@ -108,7 +108,7 @@ const isFinishFunc = todoData => {
   }).catch(err => {
     console.log(err)
     if (err.response.status === 403) {
-      alert("잘못된 접근입니다.")
+      alert("잘못된 접근입니다. code(Finished Todo)")
     }
     // console.log(err)
   })
@@ -132,6 +132,7 @@ const deleteTodo = (todoId) => {
     getTodoData()
   }).catch(err => {
     console.log(err)
+    alert("잘못된 접근입니다. code(Delete Todo Error)")
   })
 }
 
@@ -167,7 +168,7 @@ const submitEditTodo = (e, todoData) => {
     getTodoData()
   }).catch(err => {
     if (err.response.status === 403) {
-      alert("잘못된 접근입니다.")
+      alert("잘못된 접근입니다. code(Edit Todo Error)")
     }
     // console.log(err)
   })

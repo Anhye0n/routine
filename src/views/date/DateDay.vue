@@ -115,7 +115,7 @@ const getRoutineData = () => {
       }
     })
     .catch(err => {
-      alert("잘못된 접근입니다.")
+      alert("잘못된 접근입니다. code(Get Routine Error)")
     })
 }
 
@@ -163,7 +163,7 @@ const getTodoData = () => {
       }
     })
     .catch(err => {
-      alert("잘못된 접근입니다.")
+      alert("잘못된 접근입니다. code(Get Todo Error)")
     })
 }
 

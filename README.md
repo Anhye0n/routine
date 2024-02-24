@@ -1,29 +1,26 @@
-# routine
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+# MyRoutine
+https://myroutine.work
 
 ## Project Setup
+|  /   |      사용 기술      |
+|:----:|:---------------:|
+| 개발도구 |      vite       |
+|  FE  |   Vue3, pinia   |
+|  BE  | Nestjs, MariaDB |
 
-```sh
-npm install
-```
+## 개발 목적
+- 새로 배운 vue3와 nestjs을 이용하여 간단한 웹앱을 개발해보기 위해 만든 프로젝트
+- 빌드 후, 실제로 사용하기 위한 세팅 및 운영에 대한 경험
+- 지금까지 세션으로 로그인을 관리하여 왔는데, jwt를 이용하여 개발해보기 위함
 
-### Compile and Hot-Reload for Development
+## 기능들
+1. 루틴 추가
+   1. 완료 유무, 수정, 삭제
+   2. 매일매일 반복되는 루틴 설정(Ex. 운동, 영양제 섭취)
+2. Todo 추가
+   1. 완료 유무, 수정, 삭제
+   2. Todo 설정(Ex. 과제, 약속)
+3. 로그인, 회원가입
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+## 추후 계획
+1. 월별 보기 기능
